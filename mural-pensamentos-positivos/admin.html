@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Painel Administrativo · Mural dos Pensamentos Positivos</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+
+  <body>
+    <!-- RF01 — Banner permanente (presente em todas as telas) -->
+    <div class="banner-aviso" role="note">
+      <p>
+        <strong>Acolhimento fraterno entre pares.</strong>
+        <span class="banner-aviso__completo">
+          Este espaço não substitui o acompanhamento de profissionais de saúde mental. Em crise ou
+          risco à vida, ligue gratuitamente:
+        </span>
+        <span class="banner-aviso__curto">Não substitui ajuda profissional. Em crise:</span>
+      </p>
+      <a href="tel:188" class="banner-aviso__cvv">📞 CVV 188</a>
+    </div>
+
+    <header class="cabecalho">
+      <div class="container cabecalho__conteudo">
+        <a href="index.html" class="logo">
+          <span class="logo__icone" aria-hidden="true">🌻</span>
+          <span class="logo__texto">Mural dos <strong>Pensamentos Positivos</strong></span>
+        </a>
+
+        <nav class="menu" aria-label="Menu administrativo">
+          <a href="index.html" class="menu__link" aria-label="Voltar ao mural">
+            <span aria-hidden="true">←</span> <span class="menu__texto">Voltar ao mural</span>
+          </a>
+          <button type="button" id="botao-sair" class="botao botao--secundario botao--pequeno" hidden>
+            Sair
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- ============================================================
+           TELA DE LOGIN (demonstrativa)
+           ============================================================ -->
+      <section id="tela-login" class="login">
+        <div class="login__card">
+          <span class="login__icone" aria-hidden="true">🔒</span>
+          <h1>Área da Moderação</h1>
+          <p class="texto-suave">Acesso restrito à equipe responsável pelo projeto.</p>
+
+          <div id="alerta-login" class="alerta" role="alert" hidden></div>
+
+          <form id="form-login">
+            <div class="campo">
+              <label for="campo-senha">Senha</label>
+              <input type="password" id="campo-senha" required autocomplete="current-password" />
+            </div>
+            <button type="submit" class="botao botao--primario botao--largo">Entrar</button>
+          </form>
+
+          <p class="login__dica">
+            💡 Protótipo acadêmico — senha de demonstração: <code>admin123</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAINEL ADMINISTRATIVO
+           ============================================================ -->
+      <div id="painel-admin" class="admin" hidden>
+        <div class="admin__titulo">
+          <h1>Painel Administrativo</h1>
+          <p class="texto-suave">Moderação do mural e acompanhamento das conversas da Sala de Bate-Papo.</p>
+        </div>
+
+        <!-- Resumo em números -->
+        <section class="resumo" aria-label="Resumo">
+          <div class="resumo__card">
+            <span id="resumo-pensamentos" class="resumo__numero">0</span>
+            <span class="resumo__rotulo">🌸 Pensamentos publicados</span>
+          </div>
+          <div class="resumo__card">
+            <span id="resumo-ativas" class="resumo__numero">0</span>
+            <span class="resumo__rotulo">💬 Conversas ativas</span>
+          </div>
+          <div class="resumo__card resumo__card--alerta">
+            <span id="resumo-atencao" class="resumo__numero">0</span>
+            <span class="resumo__rotulo">⚠️ Conversas que precisam de atenção</span>
+          </div>
+          <div class="resumo__card resumo__card--neutro">
+            <span id="resumo-encerradas" class="resumo__numero">0</span>
+            <span class="resumo__rotulo">✔️ Conversas encerradas</span>
+          </div>
+        </section>
+
+        <!-- Abas -->
+        <div class="abas" role="tablist" aria-label="Seções do painel">
+          <button
+            type="button"
+            class="aba aba--ativa"
+            role="tab"
+            id="aba-pensamentos"
+            data-aba="pensamentos"
+            aria-selected="true"
+            aria-controls="secao-pensamentos"
+          >
+            🌸 Pensamentos do mural
+          </button>
+          <button
+            type="button"
+            class="aba"
+            role="tab"
+            id="aba-conversas"
+            data-aba="conversas"
+            aria-selected="false"
+            aria-controls="secao-conversas"
+          >
+            💬 Solicitações de conversa
+            <span id="contador-aba-conversas" class="aba__contador">0</span>
+          </button>
+        </div>
+
+        <!-- Aba 1: pensamentos do mural (editar / excluir) -->
+        <section id="secao-pensamentos" role="tabpanel" aria-labelledby="aba-pensamentos">
+          <div class="barra-ferramentas">
+            <label for="campo-busca" class="visualmente-oculto">Buscar pensamentos</label>
+            <input type="search" id="campo-busca" placeholder="🔍 Buscar por texto ou autor..." />
+            <button type="button" id="botao-restaurar" class="botao botao--texto botao--pequeno">
+              ↺ Restaurar exemplos
+            </button>
+          </div>
+
+          <div class="tabela-responsiva">
+            <table class="tabela">
+              <thead>
+                <tr>
+                  <th scope="col">Publicado em</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Pensamento</th>
+                  <th scope="col">Curtidas</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="corpo-tabela-pensamentos"></tbody>
+            </table>
+            <p id="sem-pensamentos" class="tabela__vazia" hidden>Nenhum pensamento encontrado.</p>
+          </div>
+        </section>
+
+        <!-- Aba 2: pessoas que solicitaram conversa (encerrar chat) -->
+        <section id="secao-conversas" role="tabpanel" aria-labelledby="aba-conversas" hidden>
+          <p class="nota-privacidade">
+            🔐 <strong>Privacidade (LGPD):</strong> o conteúdo das conversas não é exibido aqui. A
+            moderação acompanha apenas indicadores automáticos (termos de crise e mensagens
+            ofensivas bloqueadas) para decidir se é necessário encerrar uma conversa.
+          </p>
+
+          <div class="barra-ferramentas">
+            <span class="texto-suave">Conversas ativas aparecem primeiro; as que precisam de atenção ficam destacadas.</span>
+            <button type="button" id="botao-limpar-encerradas" class="botao botao--texto botao--pequeno">
+              🧹 Remover encerradas
+            </button>
+          </div>
+
+          <div class="tabela-responsiva">
+            <table class="tabela">
+              <thead>
+                <tr>
+                  <th scope="col">Participante</th>
+                  <th scope="col">Etiqueta</th>
+                  <th scope="col">Início</th>
+                  <th scope="col">Horário sugerido</th>
+                  <th scope="col">Indicadores</th>
+                  <th scope="col">Situação</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="corpo-tabela-conversas"></tbody>
+            </table>
+            <p id="sem-conversas" class="tabela__vazia" hidden>Nenhuma solicitação de conversa no momento.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="rodape">
+      <div class="container">
+        <p><strong>Mural dos Pensamentos Positivos</strong> · Painel de Moderação</p>
+        <p>Análise e Desenvolvimento de Sistemas · FAESA Centro Universitário · 2026</p>
+      </div>
+    </footer>
+
+    <!-- Botão de emergência (todas as telas) -->
+    <button type="button" class="flutuante flutuante--emergencia" data-abrir-emergencia>
+      <span aria-hidden="true">🆘</span>
+      <span class="flutuante__texto">Ajuda urgente</span>
+    </button>
+
+    <!-- ==============================================================
+         MODAL: EDITAR PENSAMENTO
+         ============================================================== -->
+    <dialog id="modal-edicao" class="modal" aria-labelledby="titulo-edicao">
+      <form id="form-edicao" class="modal__conteudo" novalidate>
+        <header class="modal__cabecalho">
+          <h2 id="titulo-edicao">✏️ Editar pensamento</h2>
+          <button type="button" class="botao-fechar" id="botao-fechar-edicao" aria-label="Fechar">✕</button>
+        </header>
+
+        <div class="modal__corpo">
+          <div id="alerta-edicao" class="alerta" role="alert" hidden></div>
+
+          <div class="campo">
+            <label for="edicao-autor">Autor</label>
+            <input type="text" id="edicao-autor" maxlength="40" placeholder="Anônimo" />
+          </div>
+
+          <div class="campo">
+            <label for="edicao-categoria">Categoria</label>
+            <select id="edicao-categoria">
+              <option value="gratidao">🙏 Gratidão</option>
+              <option value="superacao">🌱 Superação</option>
+              <option value="autocuidado">🌸 Autocuidado</option>
+              <option value="motivacao">☀️ Motivação</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="edicao-texto">Mensagem</label>
+            <textarea id="edicao-texto" rows="5" maxlength="280"></textarea>
+          </div>
+        </div>
+
+        <footer class="modal__rodape">
+          <button type="button" id="botao-cancelar-edicao" class="botao botao--texto">Cancelar</button>
+          <button type="submit" class="botao botao--primario">Salvar alterações</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- ==============================================================
+         MODAL: EMERGÊNCIA (CVV 188, SAMU 192 e CAPS)
+         ============================================================== -->
+    <dialog id="modal-emergencia" class="modal" aria-labelledby="titulo-emergencia">
+      <div class="modal__conteudo">
+        <header class="modal__cabecalho">
+          <h2 id="titulo-emergencia">🆘 Precisa de ajuda agora?</h2>
+          <form method="dialog">
+            <button class="botao-fechar" aria-label="Fechar">✕</button>
+          </form>
+        </header>
+
+        <div class="modal__corpo">
+          <p>
+            Se você está em sofrimento intenso ou pensando em se machucar,
+            <strong>você não precisa passar por isso sozinho(a)</strong>. Procure ajuda
+            especializada agora:
+          </p>
+
+          <ul class="lista-emergencia">
+            <li>
+              <a href="tel:188" class="contato-emergencia">
+                <span class="contato-emergencia__numero">188</span>
+                <span>
+                  <strong>CVV — Centro de Valorização da Vida</strong>
+                  <small>Apoio emocional gratuito e sigiloso, 24 horas, por telefone ou chat.</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="tel:192" class="contato-emergencia">
+                <span class="contato-emergencia__numero">192</span>
+                <span>
+                  <strong>SAMU</strong>
+                  <small>Emergências médicas, 24 horas.</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.google.com/maps/search/CAPS+perto+de+mim"
+                target="_blank"
+                rel="noopener"
+                class="contato-emergencia contato-emergencia--caps"
+              >
+                <span class="contato-emergencia__numero">📍</span>
+                <span>
+                  <strong>CAPS — Centro de Atenção Psicossocial</strong>
+                  <small>Encontre a unidade mais próxima de você.</small>
+                </span>
+              </a>
+            </li>
+          </ul>
+
+          <p class="texto-suave">
+            Chat do CVV: <a href="https://cvv.org.br/" target="_blank" rel="noopener">cvv.org.br</a>.
+            Em perigo imediato, ligue também 190 (Polícia) ou 193 (Bombeiros).
+          </p>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="area-avisos" class="area-avisos" aria-live="polite"></div>
+
+    <script src="js/armazenamento.js"></script>
+    <script src="js/moderacao.js"></script>
+    <script src="js/comum.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

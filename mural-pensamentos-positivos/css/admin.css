@@ -1,0 +1,381 @@
+/* =====================================================================
+ * ADMIN.CSS — Estilos exclusivos do Painel Administrativo
+ * (as variáveis e componentes base vêm do style.css)
+ * ===================================================================== */
+
+/* --- Login --- */
+.login {
+  display: grid;
+  place-items: center;
+  min-height: 65vh;
+  padding: 3rem 0;
+}
+
+.login__card {
+  width: min(420px, 100%);
+  padding: 2rem;
+  border-radius: var(--raio);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra-forte);
+  text-align: center;
+}
+
+.login__icone {
+  display: inline-grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--verde-claro);
+  font-size: 1.8rem;
+}
+
+.login__card h1 {
+  color: var(--verde-escuro);
+  font-size: 1.5rem;
+}
+
+.login__card form {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.login__card .alerta {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.login__dica {
+  margin-top: 1.25rem;
+  padding: 0.6rem;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-size: 0.85rem;
+}
+
+code {
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background-color: var(--superficie);
+  font-weight: 800;
+}
+
+/* --- Estrutura do painel --- */
+.admin {
+  padding: 2rem 0 4rem;
+}
+
+.admin__titulo h1 {
+  color: var(--verde-escuro);
+  font-size: 1.8rem;
+}
+
+/* --- Resumo em números --- */
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.resumo__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem;
+  border-left: 5px solid var(--verde);
+  border-radius: var(--raio);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+.resumo__numero {
+  color: var(--verde-escuro);
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.resumo__rotulo {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.resumo__card--alerta {
+  border-left-color: var(--perigo);
+}
+
+.resumo__card--alerta .resumo__numero {
+  color: var(--perigo);
+}
+
+.resumo__card--neutro {
+  border-left-color: #8a9a96;
+}
+
+.resumo__card--neutro .resumo__numero {
+  color: var(--texto-suave);
+}
+
+/* --- Abas --- */
+.abas {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 -2px 0 var(--borda); /* linha de base das abas */
+  overflow-x: auto;
+}
+
+.aba {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--texto-suave);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.aba:hover {
+  color: var(--verde);
+}
+
+.aba--ativa {
+  border-bottom-color: var(--verde);
+  color: var(--verde);
+}
+
+.aba__contador {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background-color: var(--verde);
+  color: #ffffff;
+  font-size: 0.75rem;
+}
+
+/* --- Barra de ferramentas --- */
+.barra-ferramentas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.barra-ferramentas input[type="search"] {
+  flex: 1;
+  min-width: 220px;
+  max-width: 420px;
+}
+
+.nota-privacidade {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-size: 0.9rem;
+}
+
+/* --- Tabelas --- */
+.tabela-responsiva {
+  border-radius: var(--raio);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra);
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.tabela th {
+  padding: 0.85rem 1rem;
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-weight: 800;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tabela td {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--borda);
+  vertical-align: top;
+}
+
+/* Dentro da tabela, etiquetas e indicadores podem quebrar linha
+   para que a coluna "Ações" caiba na tela sem rolagem lateral */
+.tabela .etiqueta,
+.tabela .indicador {
+  border-radius: 10px;
+  white-space: normal;
+}
+
+.tabela tbody tr:hover {
+  background-color: #f9fcfb;
+}
+
+.celula-texto {
+  min-width: 260px;
+  max-width: 420px;
+  overflow-wrap: anywhere;
+}
+
+.celula-acoes {
+  white-space: nowrap;
+}
+
+.celula-acoes .botao + .botao {
+  margin-left: 0.4rem;
+}
+
+/* Conversa ativa com indicadores de risco fica destacada */
+.linha--atencao,
+.tabela tbody tr.linha--atencao:hover {
+  background-color: #fff6f4;
+  box-shadow: inset 4px 0 0 var(--perigo);
+}
+
+.tabela__vazia {
+  padding: 2rem 1rem;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+/* Etiqueta de categoria */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.tag--gratidao {
+  background-color: var(--gratidao-fundo);
+  color: var(--gratidao-cor);
+}
+.tag--superacao {
+  background-color: var(--superacao-fundo);
+  color: var(--superacao-cor);
+}
+.tag--autocuidado {
+  background-color: var(--autocuidado-fundo);
+  color: var(--autocuidado-cor);
+}
+.tag--motivacao {
+  background-color: var(--motivacao-fundo);
+  color: var(--motivacao-cor);
+}
+
+/* Indicadores da conversa */
+.indicador {
+  display: inline-block;
+  margin: 0.1rem 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.indicador--crise {
+  background-color: var(--perigo-fundo);
+  color: var(--perigo-escuro);
+}
+
+.indicador--ofensivo {
+  background-color: #fff1db;
+  color: #7a4a00;
+}
+
+.situacao {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.situacao--ativa {
+  color: #17643a;
+}
+
+.situacao--encerrada {
+  color: var(--texto-suave);
+  font-weight: 600;
+  white-space: normal;
+}
+
+.texto-pequeno {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+}
+
+/* --- Responsividade: tabela vira "cartões" no celular --- */
+@media (max-width: 760px) {
+  .tabela thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .tabela,
+  .tabela tbody,
+  .tabela tr,
+  .tabela td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabela tr {
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--borda);
+  }
+
+  .tabela tr:first-child {
+    border-top: none;
+  }
+
+  .tabela td {
+    padding: 0.35rem 1rem;
+    border-top: none;
+  }
+
+  /* O nome da coluna aparece acima de cada valor (atributo data-label) */
+  .tabela td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--texto-suave);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .celula-texto {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .celula-acoes {
+    white-space: normal;
+  }
+
+  .barra-ferramentas input[type="search"] {
+    max-width: none;
+  }
+}

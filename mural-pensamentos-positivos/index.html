@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mural dos Pensamentos Positivos: espaço comunitário de mensagens positivas, acolhimento fraterno e escuta solidária."
+    />
+    <title>Mural dos Pensamentos Positivos</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>"
+    />
+
+    <!-- Fonte Nunito (arredondada e legível). Sem internet, o navegador usa a fonte padrão. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- ==============================================================
+         RF01 — BANNER PERMANENTE DE TRANSPARÊNCIA E EMERGÊNCIA
+         ============================================================== -->
+    <div class="banner-aviso" role="note">
+      <p>
+        <strong>Acolhimento fraterno entre pares.</strong>
+        <span class="banner-aviso__completo">
+          Este espaço não substitui o acompanhamento de profissionais de saúde mental. Em crise ou
+          risco à vida, ligue gratuitamente:
+        </span>
+        <span class="banner-aviso__curto">Não substitui ajuda profissional. Em crise:</span>
+      </p>
+      <a href="tel:188" class="banner-aviso__cvv">📞 CVV 188</a>
+    </div>
+
+    <!-- ==============================================================
+         CABEÇALHO
+         ============================================================== -->
+    <header class="cabecalho">
+      <div class="container cabecalho__conteudo">
+        <a href="index.html" class="logo">
+          <span class="logo__icone" aria-hidden="true">🌻</span>
+          <span class="logo__texto">Mural dos <strong>Pensamentos Positivos</strong></span>
+        </a>
+
+        <nav class="menu" aria-label="Menu principal">
+          <button type="button" class="botao botao--secundario botao--pequeno menu__chat" data-abrir-chat>
+            💬 Sala de Bate-Papo
+          </button>
+          <a href="admin.html" class="menu__link" aria-label="Administração">
+            <span aria-hidden="true">🔒</span> <span class="menu__texto">Administração</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============================================================
+           DESTAQUE (boas-vindas + botões principais)
+           ============================================================ -->
+      <section class="destaque">
+        <div class="container">
+          <span class="destaque__selo">🌱 Projeto de extensão · FAESA</span>
+          <h1>Um lugar para compartilhar o que faz bem&nbsp;💚</h1>
+          <p>
+            Deixe uma mensagem de gratidão, superação ou incentivo para alguém da comunidade. Se
+            preferir conversar, a nossa Sala de Bate-Papo tem voluntários prontos para ouvir.
+          </p>
+
+          <div class="destaque__acoes">
+            <button
+              type="button"
+              id="botao-novo-pensamento"
+              class="botao botao--primario"
+              aria-expanded="false"
+              aria-controls="painel-formulario"
+            >
+              ✍️ Compartilhar um pensamento
+            </button>
+            <button type="button" class="botao botao--secundario" data-abrir-chat>
+              💬 Entrar na Sala de Bate-Papo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <!-- ==========================================================
+             FORMULÁRIO DE NOVO PENSAMENTO (aparece ao clicar no botão)
+             ========================================================== -->
+        <section id="painel-formulario" class="painel-formulario" aria-labelledby="titulo-formulario" hidden>
+          <h2 id="titulo-formulario">✨ Novo pensamento positivo</h2>
+          <p class="painel-formulario__dica">
+            Mensagens com palavras negativas ou ofensivas são bloqueadas automaticamente.
+          </p>
+
+          <!-- Alerta do filtro de moderação (RF02) -->
+          <div id="alerta-mural" class="alerta" role="alert" hidden></div>
+
+          <form id="form-pensamento" novalidate>
+            <div class="campo">
+              <label for="campo-autor">
+                Seu nome ou apelido <span class="opcional">(opcional)</span>
+              </label>
+              <input
+                type="text"
+                id="campo-autor"
+                maxlength="40"
+                placeholder="Em branco, aparece como Anônimo"
+                autocomplete="off"
+              />
+            </div>
+
+            <fieldset class="campo">
+              <legend>Categoria</legend>
+              <div class="opcoes-categoria">
+                <label class="chip-categoria chip-categoria--gratidao">
+                  <input type="radio" name="categoria" value="gratidao" checked />
+                  <span>🙏 Gratidão</span>
+                </label>
+                <label class="chip-categoria chip-categoria--superacao">
+                  <input type="radio" name="categoria" value="superacao" />
+                  <span>🌱 Superação</span>
+                </label>
+                <label class="chip-categoria chip-categoria--autocuidado">
+                  <input type="radio" name="categoria" value="autocuidado" />
+                  <span>🌸 Autocuidado</span>
+                </label>
+                <label class="chip-categoria chip-categoria--motivacao">
+                  <input type="radio" name="categoria" value="motivacao" />
+                  <span>☀️ Motivação</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="campo">
+              <label for="campo-texto">Sua mensagem</label>
+              <textarea
+                id="campo-texto"
+                rows="4"
+                maxlength="280"
+                required
+                placeholder="Escreva uma frase inspiradora, um agradecimento ou uma palavra de incentivo..."
+              ></textarea>
+              <small id="contador-caracteres" class="contador">0/280</small>
+            </div>
+
+            <div class="formulario__acoes">
+              <button type="button" id="botao-cancelar-pensamento" class="botao botao--texto">
+                Cancelar
+              </button>
+              <button type="submit" class="botao botao--primario">Publicar no mural ✨</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ==========================================================
+             RF03 — MURAL DE MENSAGENS POSITIVAS (cards)
+             ========================================================== -->
+        <section class="mural" aria-labelledby="titulo-mural">
+          <div class="mural__topo">
+            <h2 id="titulo-mural">Mural de pensamentos</h2>
+            <span id="contador-pensamentos" class="mural__contador"></span>
+          </div>
+
+          <div class="filtros" role="group" aria-label="Filtrar por categoria">
+            <button type="button" class="filtro filtro--ativo" data-categoria="todas" aria-pressed="true">
+              Todos
+            </button>
+            <button type="button" class="filtro" data-categoria="gratidao" aria-pressed="false">
+              🙏 Gratidão
+            </button>
+            <button type="button" class="filtro" data-categoria="superacao" aria-pressed="false">
+              🌱 Superação
+            </button>
+            <button type="button" class="filtro" data-categoria="autocuidado" aria-pressed="false">
+              🌸 Autocuidado
+            </button>
+            <button type="button" class="filtro" data-categoria="motivacao" aria-pressed="false">
+              ☀️ Motivação
+            </button>
+          </div>
+
+          <!-- Os cards são criados pelo JavaScript (js/mural.js) -->
+          <div id="lista-pensamentos" class="grade-cards"></div>
+
+          <p id="mural-vazio" class="mural__vazio" hidden>
+            Nenhum pensamento nesta categoria ainda. Que tal ser a primeira pessoa? 🌱
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <!-- ==============================================================
+         RODAPÉ
+         ============================================================== -->
+    <footer class="rodape">
+      <div class="container">
+        <p><strong>Mural dos Pensamentos Positivos</strong> · Projeto Integrador I-A · Ação Extensionista</p>
+        <p>Análise e Desenvolvimento de Sistemas · FAESA Centro Universitário · 2026</p>
+        <p class="rodape__aviso">
+          Espaço de acolhimento fraterno e escuta solidária baseado na Lei do Voluntariado (Lei nº
+          9.608/1998). Não substitui o acompanhamento de profissionais de saúde.
+        </p>
+        <p><a href="admin.html">Área administrativa</a></p>
+      </div>
+    </footer>
+
+    <!-- ==============================================================
+         BOTÕES FLUTUANTES: emergência (todas as telas) e bate-papo
+         ============================================================== -->
+    <button type="button" class="flutuante flutuante--emergencia" data-abrir-emergencia>
+      <span aria-hidden="true">🆘</span>
+      <span class="flutuante__texto">Ajuda urgente</span>
+    </button>
+
+    <button
+      type="button"
+      id="botao-chat-flutuante"
+      class="flutuante flutuante--chat"
+      data-abrir-chat
+      aria-label="Abrir Sala de Bate-Papo"
+    >
+      <span aria-hidden="true">💬</span>
+      <span class="flutuante__texto">Bate-papo</span>
+    </button>
+
+    <!-- ==============================================================
+         RF04 / RF05 — SALA DE BATE-PAPO (abre ao clicar no botão)
+         ============================================================== -->
+    <div id="fundo-chat" class="fundo-escuro" hidden></div>
+
+    <aside id="painel-chat" class="painel-chat" role="dialog" aria-labelledby="titulo-chat">
+      <header class="chat__cabecalho">
+        <div class="chat__titulo">
+          <h2 id="titulo-chat">💬 Sala de Acolhimento</h2>
+          <span id="etiqueta-atual" class="etiqueta" hidden></span>
+        </div>
+        <div class="chat__acoes-topo">
+          <button
+            type="button"
+            class="botao-icone botao-icone--emergencia"
+            data-abrir-emergencia
+            aria-label="Contatos de emergência"
+            title="Contatos de emergência"
+          >
+            🆘
+          </button>
+          <button type="button" id="botao-fechar-chat" class="botao-icone" aria-label="Fechar sala">
+            ✕
+          </button>
+        </div>
+      </header>
+
+      <!-- Etapa 1: apelido e etiqueta de participação -->
+      <section id="chat-entrada" class="chat__entrada">
+        <p class="chat__introducao">
+          Converse com alguém da comunidade em um espaço seguro, respeitoso e sem julgamentos.
+        </p>
+
+        <form id="form-entrada-chat">
+          <div class="campo">
+            <label for="campo-apelido">
+              Como quer ser chamado(a)? <span class="opcional">(opcional)</span>
+            </label>
+            <input type="text" id="campo-apelido" maxlength="30" placeholder="Anônimo" autocomplete="off" />
+          </div>
+
+          <fieldset class="campo">
+            <legend>Escolha sua etiqueta de participação</legend>
+
+            <label class="opcao-perfil">
+              <input type="radio" name="etiqueta" value="busca" checked />
+              <span class="opcao-perfil__conteudo">
+                <span class="etiqueta etiqueta--busca">Pessoa em Busca de Acolhimento</span>
+                <span class="opcao-perfil__descricao">Quero conversar e desabafar sobre o meu dia.</span>
+              </span>
+            </label>
+
+            <label class="opcao-perfil">
+              <input type="radio" name="etiqueta" value="voluntario" />
+              <span class="opcao-perfil__conteudo">
+                <span class="etiqueta etiqueta--voluntario">Voluntário da Comunidade</span>
+                <span class="opcao-perfil__descricao">
+                  Quero oferecer escuta solidária, com empatia e sem julgamentos.
+                </span>
+              </span>
+            </label>
+          </fieldset>
+
+          <p class="lembrete">
+            ℹ️ Os voluntários são pessoas da comunidade, <strong>não profissionais de saúde</strong>.
+            Em crise, ligue <a href="tel:188">188 (CVV)</a>.
+          </p>
+
+          <button type="submit" class="botao botao--primario botao--largo">Entrar na sala</button>
+        </form>
+      </section>
+
+      <!-- Etapa 2: conversa -->
+      <section id="chat-conversa" class="chat__conversa" hidden>
+        <div class="chat__barra">
+          <label for="seletor-etiqueta">Minha etiqueta:</label>
+          <select id="seletor-etiqueta">
+            <option value="busca">Pessoa em Busca de Acolhimento</option>
+            <option value="voluntario">Voluntário da Comunidade</option>
+          </select>
+          <button type="button" id="botao-sair-chat" class="botao botao--pequeno botao--contorno-perigo">
+            Sair
+          </button>
+        </div>
+
+        <div
+          id="mensagens-chat"
+          class="chat__mensagens"
+          role="log"
+          aria-live="polite"
+          aria-label="Mensagens da conversa"
+        ></div>
+        <p id="indicador-digitando" class="chat__digitando" hidden></p>
+
+        <div class="chat__rodape">
+          <!-- RF05: sugestão de horário -->
+          <details id="painel-agendamento" class="agendamento">
+            <summary>📅 Sugerir um horário para conversar</summary>
+            <form id="form-agendamento" class="agendamento__form">
+              <label for="campo-horario" class="visualmente-oculto">Data e horário sugeridos</label>
+              <input type="datetime-local" id="campo-horario" />
+              <button type="submit" class="botao botao--pequeno botao--primario">Enviar sugestão</button>
+            </form>
+          </details>
+
+          <div id="alerta-chat" class="alerta" role="alert" hidden></div>
+
+          <form id="form-mensagem-chat" class="chat__envio">
+            <label for="campo-mensagem-chat" class="visualmente-oculto">Mensagem</label>
+            <input
+              type="text"
+              id="campo-mensagem-chat"
+              maxlength="500"
+              placeholder="Escreva sua mensagem..."
+              autocomplete="off"
+            />
+            <button type="submit" class="botao-enviar" aria-label="Enviar mensagem">➤</button>
+          </form>
+
+          <div id="aviso-conversa-encerrada" class="chat__encerrada" hidden>
+            <p>Esta conversa foi encerrada.</p>
+            <button type="button" id="botao-nova-conversa" class="botao botao--primario botao--largo">
+              Iniciar nova conversa
+            </button>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- ==============================================================
+         MODAL: TERMO DE CONSENTIMENTO (primeiro acesso)
+         ============================================================== -->
+    <dialog id="modal-termo" class="modal" aria-labelledby="titulo-termo">
+      <div class="modal__conteudo">
+        <header class="modal__cabecalho">
+          <h2 id="titulo-termo">🤝 Termo de Consentimento e Responsabilidade</h2>
+        </header>
+
+        <div class="modal__corpo">
+          <p>Antes de começar, leia com atenção:</p>
+          <ul class="termo__lista">
+            <li>
+              <strong>O que somos:</strong> um projeto extensionista e comunitário de
+              <strong>acolhimento fraterno e escuta solidária</strong> entre pares, baseado na Lei
+              do Voluntariado (Lei nº 9.608/1998).
+            </li>
+            <li>
+              <strong>O que não somos:</strong> os voluntários não são profissionais de saúde
+              mental. Este espaço <strong>não substitui</strong> o acompanhamento de psicólogos,
+              psiquiatras ou médicos (Lei nº 4.119/1962).
+            </li>
+            <li>
+              <strong>Em crise ou risco à vida:</strong> ligue para o <strong>CVV (188)</strong>,
+              gratuito e 24h, para o <strong>SAMU (192)</strong> ou procure o
+              <strong>CAPS</strong> mais próximo.
+            </li>
+            <li>
+              <strong>Moderação:</strong> mensagens ofensivas ou negativas são bloqueadas
+              automaticamente, e a equipe pode encerrar conversas quando necessário.
+            </li>
+            <li>
+              <strong>Privacidade (LGPD):</strong> você pode participar de forma anônima. Neste
+              protótipo, os dados ficam salvos apenas no seu navegador.
+            </li>
+          </ul>
+
+          <label class="termo__aceite">
+            <input type="checkbox" id="check-termo" />
+            Li, compreendi e concordo com os termos acima.
+          </label>
+        </div>
+
+        <footer class="modal__rodape">
+          <button type="button" id="botao-aceitar-termo" class="botao botao--primario" disabled>
+            Concordo e quero entrar
+          </button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- ==============================================================
+         MODAL: EMERGÊNCIA (CVV 188, SAMU 192 e CAPS)
+         ============================================================== -->
+    <dialog id="modal-emergencia" class="modal" aria-labelledby="titulo-emergencia">
+      <div class="modal__conteudo">
+        <header class="modal__cabecalho">
+          <h2 id="titulo-emergencia">🆘 Precisa de ajuda agora?</h2>
+          <form method="dialog">
+            <button class="botao-fechar" aria-label="Fechar">✕</button>
+          </form>
+        </header>
+
+        <div class="modal__corpo">
+          <p>
+            Se você está em sofrimento intenso ou pensando em se machucar,
+            <strong>você não precisa passar por isso sozinho(a)</strong>. Procure ajuda
+            especializada agora:
+          </p>
+
+          <ul class="lista-emergencia">
+            <li>
+              <a href="tel:188" class="contato-emergencia">
+                <span class="contato-emergencia__numero">188</span>
+                <span>
+                  <strong>CVV — Centro de Valorização da Vida</strong>
+                  <small>Apoio emocional gratuito e sigiloso, 24 horas, por telefone ou chat.</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="tel:192" class="contato-emergencia">
+                <span class="contato-emergencia__numero">192</span>
+                <span>
+                  <strong>SAMU</strong>
+                  <small>Emergências médicas, 24 horas.</small>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.google.com/maps/search/CAPS+perto+de+mim"
+                target="_blank"
+                rel="noopener"
+                class="contato-emergencia contato-emergencia--caps"
+              >
+                <span class="contato-emergencia__numero">📍</span>
+                <span>
+                  <strong>CAPS — Centro de Atenção Psicossocial</strong>
+                  <small>Encontre a unidade mais próxima de você.</small>
+                </span>
+              </a>
+            </li>
+          </ul>
+
+          <p class="texto-suave">
+            Chat do CVV: <a href="https://cvv.org.br/" target="_blank" rel="noopener">cvv.org.br</a>.
+            Em perigo imediato, ligue também 190 (Polícia) ou 193 (Bombeiros).
+          </p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Área dos avisos rápidos (toast) -->
+    <div id="area-avisos" class="area-avisos" aria-live="polite"></div>
+
+    <!-- Scripts (a ordem importa: dados → filtro → comum → telas) -->
+    <script src="js/armazenamento.js"></script>
+    <script src="js/moderacao.js"></script>
+    <script src="js/comum.js"></script>
+    <script src="js/mural.js"></script>
+    <script src="js/chat.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1639 @@
+/* =====================================================================
+ * STYLE.CSS — Estilos do Mural dos Pensamentos Positivos
+ * ---------------------------------------------------------------------
+ * Organização:
+ *   1. Variáveis (cores, fontes, medidas)
+ *   2. Reset e base
+ *   3. Componentes reutilizáveis (botões, campos, alertas, etiquetas)
+ *   4. Banner de aviso legal (RF01)
+ *   5. Cabeçalho e destaque
+ *   6. Formulário do pensamento
+ *   7. Mural e cards (RF03)
+ *   8. Botões flutuantes
+ *   9. Sala de bate-papo (RF04 / RF05)
+ *  10. Modais (termo e emergência)
+ *  11. Avisos rápidos (toast)
+ *  12. Rodapé
+ *  13. Animações
+ *  14. Responsividade (RNF02)
+ * ===================================================================== */
+
+/* 1. VARIÁVEIS ------------------------------------------------------- */
+:root {
+  /* Paleta principal (RNF01: tons pastel acolhedores) */
+  --verde: #2c6e63;
+  --verde-escuro: #1d4f46;
+  --verde-claro: #e0f2f1;
+  --verde-suave: #b9ded7;
+  --creme: #fdf6ec;
+  --pessego: #fbd9c2;
+
+  --fundo: #f5faf8;
+  --superficie: #ffffff;
+  --texto: #1e2d2a;
+  --texto-suave: #55665f;
+  --borda: #d6e6e2;
+  --foco: #e0773a;
+
+  --perigo: #b42318;
+  --perigo-escuro: #8c1b12;
+  --perigo-fundo: #fdecea;
+  --aviso-fundo: #fff4d6;
+  --aviso-borda: #f2d17c;
+  --aviso-texto: #5c4300;
+
+  /* Categorias dos pensamentos */
+  --gratidao-fundo: #fff4d4;
+  --gratidao-cor: #8a5a00;
+  --superacao-fundo: #efe9fd;
+  --superacao-cor: #5a3fb5;
+  --autocuidado-fundo: #fde8ef;
+  --autocuidado-cor: #a3305a;
+  --motivacao-fundo: #e3f2fc;
+  --motivacao-cor: #1e659e;
+
+  /* Etiquetas da sala de bate-papo (RF04) */
+  --etiqueta-busca-fundo: #e6e9ec; /*      cinza / neutra */
+  --etiqueta-busca-texto: #3b4651;
+  --etiqueta-voluntario-fundo: #d4f0de; /* verde / acolhedora */
+  --etiqueta-voluntario-texto: #17643a;
+
+  --fonte: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --raio: 16px;
+  --raio-pequeno: 10px;
+  --sombra: 0 6px 20px rgba(29, 79, 70, 0.08);
+  --sombra-forte: 0 16px 40px rgba(29, 79, 70, 0.2);
+  --largura-maxima: 1120px;
+}
+
+/* 2. RESET E BASE ---------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Garante que o atributo "hidden" sempre esconda o elemento,
+   mesmo que alguma classe defina display: flex ou grid */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--texto);
+  background-color: var(--fundo);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--verde);
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.container {
+  width: min(var(--largura-maxima), 100% - 2rem);
+  margin-inline: auto;
+}
+
+/* Esconde visualmente, mas mantém para leitores de tela */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.texto-suave {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+/* 3. COMPONENTES REUTILIZÁVEIS ---------------------------------------- */
+
+/* --- Botões --- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.botao:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.botao--primario {
+  background-color: var(--verde);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(44, 110, 99, 0.25);
+}
+
+.botao--primario:hover:not(:disabled) {
+  background-color: var(--verde-escuro);
+}
+
+.botao--secundario {
+  background-color: var(--superficie);
+  color: var(--verde);
+  border-color: var(--verde);
+}
+
+.botao--secundario:hover {
+  background-color: var(--verde-claro);
+}
+
+.botao--texto {
+  background-color: transparent;
+  color: var(--texto-suave);
+}
+
+.botao--texto:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--texto);
+}
+
+.botao--perigo {
+  background-color: var(--perigo);
+  color: #ffffff;
+}
+
+.botao--perigo:hover {
+  background-color: var(--perigo-escuro);
+}
+
+.botao--contorno-perigo {
+  background-color: var(--superficie);
+  color: var(--perigo);
+  border-color: currentColor;
+}
+
+.botao--contorno-perigo:hover {
+  background-color: var(--perigo-fundo);
+}
+
+.botao--pequeno {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.875rem;
+}
+
+.botao--largo {
+  width: 100%;
+}
+
+/* --- Campos de formulário --- */
+.campo {
+  margin-bottom: 1.1rem;
+  border: none;
+}
+
+.campo > label,
+.campo > legend {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+
+.opcional {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: var(--texto-suave);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="datetime-local"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  background-color: var(--superficie);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 4px rgba(44, 110, 99, 0.15);
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.contador {
+  display: block;
+  margin-top: 0.25rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.contador--limite {
+  color: var(--perigo);
+  font-weight: 700;
+}
+
+/* --- Alertas (filtro de moderação e validações) --- */
+.alerta {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border-left: 5px solid;
+  border-radius: var(--raio-pequeno);
+  font-size: 0.95rem;
+  animation: aparecer 0.25s ease;
+}
+
+.alerta p + p {
+  margin-top: 0.35rem;
+}
+
+.alerta--erro {
+  background-color: var(--perigo-fundo);
+  border-color: var(--perigo);
+  color: #6e150e;
+}
+
+.alerta--crise {
+  background-color: #fff6e0;
+  border-color: #e8a317;
+  color: #4d3800;
+}
+
+.alerta__detalhe {
+  font-size: 0.85rem;
+}
+
+.alerta mark {
+  padding: 0 0.25rem;
+  border-radius: 4px;
+  background-color: rgba(180, 35, 24, 0.12);
+  color: inherit;
+  font-weight: 700;
+}
+
+/* --- Botões rápidos de emergência (dentro de alertas) --- */
+.contatos-rapidos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.contato-rapido {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border: 2px solid var(--perigo);
+  border-radius: 999px;
+  background-color: var(--superficie);
+  color: var(--perigo);
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.contato-rapido:hover {
+  background-color: var(--perigo);
+  color: #ffffff;
+}
+
+/* --- Etiquetas de perfil (RF04) --- */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.etiqueta::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.etiqueta--busca {
+  background-color: var(--etiqueta-busca-fundo);
+  color: var(--etiqueta-busca-texto);
+}
+
+.etiqueta--voluntario {
+  background-color: var(--etiqueta-voluntario-fundo);
+  color: var(--etiqueta-voluntario-texto);
+}
+
+/* 4. BANNER DE AVISO LEGAL (RF01) ------------------------------------- */
+.banner-aviso {
+  position: sticky; /* fica fixo no topo durante a rolagem */
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background-color: var(--aviso-fundo);
+  border-bottom: 2px solid var(--aviso-borda);
+  color: var(--aviso-texto);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.banner-aviso__cvv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background-color: var(--perigo);
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.banner-aviso__cvv:hover {
+  background-color: var(--perigo-escuro);
+}
+
+/* Versão curta do aviso: usada apenas no celular */
+.banner-aviso__curto {
+  display: none;
+}
+
+/* 5. CABEÇALHO E DESTAQUE --------------------------------------------- */
+.cabecalho {
+  background-color: var(--superficie);
+  border-bottom: 1px solid var(--borda);
+}
+
+.cabecalho__conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--verde-escuro);
+  text-decoration: none;
+}
+
+.logo__icone {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 14px;
+  background-color: var(--verde-claro);
+  font-size: 1.5rem;
+}
+
+.logo__texto {
+  font-size: 0.95rem;
+  line-height: 1.15;
+}
+
+.logo__texto strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu__link {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu__link:hover {
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+}
+
+.destaque {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 4rem;
+  background: linear-gradient(135deg, var(--verde-claro) 0%, var(--creme) 100%);
+  text-align: center;
+}
+
+/* Círculos decorativos no fundo */
+.destaque::before,
+.destaque::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.destaque::before {
+  top: -120px;
+  left: -80px;
+  width: 280px;
+  height: 280px;
+  background-color: #c9ebe3;
+}
+
+.destaque::after {
+  right: -60px;
+  bottom: -110px;
+  width: 240px;
+  height: 240px;
+  background-color: var(--pessego);
+}
+
+.destaque .container {
+  position: relative;
+  z-index: 1;
+}
+
+.destaque__selo {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background-color: var(--superficie);
+  color: var(--verde);
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: var(--sombra);
+}
+
+.destaque h1 {
+  max-width: 24ch;
+  margin: 0 auto 0.75rem;
+  color: var(--verde-escuro);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-wrap: balance; /* equilibra o tamanho das linhas do título */
+}
+
+.destaque p {
+  max-width: 60ch;
+  margin: 0 auto 1.75rem;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+}
+
+.destaque__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* 6. FORMULÁRIO DO PENSAMENTO ----------------------------------------- */
+.painel-formulario {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: -2rem auto 1rem;
+  scroll-margin-top: 5rem; /* não fica escondido atrás do banner fixo */
+  padding: 1.75rem;
+  border-top: 6px solid var(--verde);
+  border-radius: var(--raio);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra-forte);
+  animation: deslizar 0.3s ease;
+}
+
+.painel-formulario h2 {
+  color: var(--verde-escuro);
+  font-size: 1.35rem;
+}
+
+.painel-formulario__dica {
+  margin-bottom: 1.25rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+/* Categorias em formato de "chips" (o radio fica escondido) */
+.opcoes-categoria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip-categoria {
+  position: relative;
+  cursor: pointer;
+}
+
+.chip-categoria input {
+  position: absolute;
+  opacity: 0;
+}
+
+.chip-categoria span {
+  display: inline-block;
+  padding: 0.45rem 0.95rem;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  background-color: var(--superficie);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.chip-categoria:hover span {
+  border-color: var(--chip-cor);
+}
+
+.chip-categoria input:checked + span {
+  background-color: var(--chip-fundo);
+  border-color: var(--chip-cor);
+  color: var(--chip-cor);
+}
+
+.chip-categoria input:focus-visible + span {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.chip-categoria--gratidao {
+  --chip-fundo: var(--gratidao-fundo);
+  --chip-cor: var(--gratidao-cor);
+}
+.chip-categoria--superacao {
+  --chip-fundo: var(--superacao-fundo);
+  --chip-cor: var(--superacao-cor);
+}
+.chip-categoria--autocuidado {
+  --chip-fundo: var(--autocuidado-fundo);
+  --chip-cor: var(--autocuidado-cor);
+}
+.chip-categoria--motivacao {
+  --chip-fundo: var(--motivacao-fundo);
+  --chip-cor: var(--motivacao-cor);
+}
+
+.formulario__acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* 7. MURAL E CARDS (RF03) --------------------------------------------- */
+.mural {
+  padding: 2.5rem 0 4rem;
+}
+
+.mural__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.mural__topo h2 {
+  color: var(--verde-escuro);
+  font-size: 1.6rem;
+}
+
+.mural__contador {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.filtro {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  background-color: var(--superficie);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.filtro:hover {
+  border-color: var(--verde);
+}
+
+.filtro--ativo {
+  background-color: var(--verde);
+  border-color: var(--verde);
+  color: #ffffff;
+}
+
+.grade-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.75rem 1.25rem;
+}
+
+/* Cada card lembra um bilhete preso no mural */
+.card {
+  --inclinacao: 0deg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.6rem 1.25rem 1rem;
+  border-radius: var(--raio);
+  background-color: var(--card-fundo);
+  box-shadow: var(--sombra);
+  transform: rotate(var(--inclinacao));
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: surgir 0.35s ease both;
+}
+
+/* Pequena inclinação alternada para dar o efeito de "mural" */
+.card:nth-child(3n + 1) {
+  --inclinacao: -0.8deg;
+}
+.card:nth-child(3n + 2) {
+  --inclinacao: 0.6deg;
+}
+
+.card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: var(--sombra-forte);
+}
+
+/* "Tachinha" que prende o bilhete */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background-color: var(--card-cor);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateX(-50%);
+}
+
+.card--gratidao {
+  --card-fundo: var(--gratidao-fundo);
+  --card-cor: var(--gratidao-cor);
+}
+.card--superacao {
+  --card-fundo: var(--superacao-fundo);
+  --card-cor: var(--superacao-cor);
+}
+.card--autocuidado {
+  --card-fundo: var(--autocuidado-fundo);
+  --card-cor: var(--autocuidado-cor);
+}
+.card--motivacao {
+  --card-fundo: var(--motivacao-fundo);
+  --card-cor: var(--motivacao-cor);
+}
+
+.card__categoria {
+  color: var(--card-cor);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.card__texto {
+  flex: 1;
+  font-size: 1.08rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.card__rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+}
+
+.card__autor {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: var(--texto-suave);
+  overflow-wrap: anywhere;
+}
+
+.card__autor strong {
+  color: var(--texto);
+}
+
+.botao-curtir {
+  flex-shrink: 0;
+  padding: 0.3rem 0.75rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.botao-curtir:hover {
+  border-color: var(--card-cor);
+}
+
+.botao-curtir[aria-pressed="true"] {
+  background-color: var(--card-cor);
+  color: #ffffff;
+}
+
+.mural__vazio {
+  padding: 3rem 1rem;
+  border: 2px dashed var(--borda);
+  border-radius: var(--raio);
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+/* 8. BOTÕES FLUTUANTES ------------------------------------------------- */
+.flutuante {
+  position: fixed;
+  bottom: 1.25rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: var(--sombra-forte);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.flutuante:hover {
+  transform: translateY(-2px);
+}
+
+.flutuante--emergencia {
+  left: 1.25rem;
+  background-color: var(--perigo);
+}
+
+.flutuante--chat {
+  right: 1.25rem;
+  background-color: var(--verde);
+}
+
+/* Pontinho verde: indica que há uma conversa ativa */
+.flutuante--ativo::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background-color: #4ade80;
+}
+
+body.chat-aberto {
+  overflow: hidden; /* trava a rolagem da página com o chat aberto */
+}
+
+body.chat-aberto .flutuante {
+  display: none;
+}
+
+/* 9. SALA DE BATE-PAPO (RF04 / RF05) ----------------------------------- */
+.fundo-escuro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background-color: rgba(16, 38, 34, 0.45);
+  animation: aparecer 0.2s ease;
+}
+
+/* Painel lateral que desliza da direita */
+.painel-chat {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100%);
+  background-color: var(--superficie);
+  box-shadow: var(--sombra-forte);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform 0.3s ease,
+    visibility 0.3s;
+}
+
+.painel-chat--aberto {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.chat__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--verde);
+  color: #ffffff;
+}
+
+.chat__titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.chat__titulo h2 {
+  font-size: 1.15rem;
+}
+
+.chat__acoes-topo {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.botao-icone {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.botao-icone:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.botao-icone--emergencia {
+  background-color: var(--perigo);
+}
+
+.botao-icone--emergencia:hover {
+  background-color: var(--perigo-escuro);
+}
+
+/* Etapa 1: entrada */
+.chat__entrada {
+  padding: 1.5rem 1.25rem;
+  overflow-y: auto;
+}
+
+.chat__introducao {
+  margin-bottom: 1.25rem;
+  color: var(--texto-suave);
+}
+
+.opcao-perfil {
+  position: relative;
+  display: block;
+  margin-bottom: 0.65rem;
+  cursor: pointer;
+}
+
+.opcao-perfil input {
+  position: absolute;
+  opacity: 0;
+}
+
+.opcao-perfil__conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--borda);
+  border-radius: 14px;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.opcao-perfil:hover .opcao-perfil__conteudo {
+  border-color: var(--verde-suave);
+}
+
+.opcao-perfil input:checked + .opcao-perfil__conteudo {
+  border-color: var(--verde);
+  background-color: var(--verde-claro);
+}
+
+.opcao-perfil input:focus-visible + .opcao-perfil__conteudo {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.opcao-perfil__descricao {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.lembrete {
+  margin-bottom: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--aviso-fundo);
+  color: var(--aviso-texto);
+  font-size: 0.85rem;
+}
+
+/* Etapa 2: conversa */
+.chat__conversa {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0; /* permite que a lista de mensagens role */
+}
+
+.chat__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--borda);
+  background-color: var(--verde-claro);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.chat__barra select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+.chat__mensagens {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  background-color: #f7fbfa;
+}
+
+.mensagem {
+  max-width: 85%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 16px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  animation: aparecer 0.25s ease;
+}
+
+.mensagem__autor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.mensagem__hora {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+  text-align: right;
+  opacity: 0.75;
+}
+
+.mensagem--enviada {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  background-color: var(--verde);
+  color: #ffffff;
+}
+
+.mensagem--recebida {
+  align-self: flex-start;
+  border: 1px solid var(--borda);
+  border-bottom-left-radius: 4px;
+  background-color: var(--superficie);
+}
+
+.mensagem--sistema {
+  align-self: center;
+  max-width: 95%;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* RF05: proposta de horário como mensagem especial */
+.mensagem--agendamento {
+  align-self: center;
+  max-width: 95%;
+  border: 2px dashed #7b93d6;
+  border-radius: var(--raio-pequeno);
+  background-color: #eef2ff;
+  color: #23408e;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.mensagem--alerta {
+  align-self: stretch;
+  max-width: 100%;
+  border: 1px solid #f3b8b1;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--perigo-fundo);
+  color: #6e150e;
+  font-size: 0.9rem;
+}
+
+.chat__digitando {
+  padding: 0 1.25rem 0.5rem;
+  background-color: #f7fbfa;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.chat__rodape {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid var(--borda);
+}
+
+.chat__rodape .alerta {
+  margin-bottom: 0;
+  font-size: 0.88rem;
+}
+
+.agendamento {
+  border: 1px dashed var(--verde-suave);
+  border-radius: var(--raio-pequeno);
+  background-color: #f7fbfa;
+}
+
+.agendamento summary {
+  padding: 0.55rem 0.85rem;
+  color: var(--verde);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.agendamento__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 0.85rem 0.75rem;
+}
+
+.agendamento__form input {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.45rem 0.65rem;
+}
+
+.chat__envio {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat__envio input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+}
+
+.botao-enviar {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--verde);
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.botao-enviar:hover {
+  background-color: var(--verde-escuro);
+}
+
+.chat__encerrada {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: var(--texto-suave);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 10. MODAIS ----------------------------------------------------------- */
+.modal {
+  width: min(560px, 100% - 2rem);
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  color: var(--texto);
+  box-shadow: var(--sombra-forte);
+}
+
+.modal::backdrop {
+  background-color: rgba(16, 38, 34, 0.6);
+}
+
+.modal[open] {
+  animation: surgir-modal 0.25s ease;
+}
+
+.modal__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.modal__cabecalho h2 {
+  color: var(--verde-escuro);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.modal__corpo {
+  padding: 1.25rem 1.5rem;
+}
+
+.modal__rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--borda);
+  background-color: #fafcfb;
+}
+
+.botao-fechar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.botao-fechar:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Termo de consentimento */
+.termo__lista {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.termo__lista li {
+  position: relative;
+  padding-left: 1.85rem;
+}
+
+.termo__lista li::before {
+  content: "✓";
+  position: absolute;
+  top: 0.15rem;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background-color: var(--verde-claro);
+  color: var(--verde);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.termo__aceite {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--raio-pequeno);
+  background-color: var(--verde-claro);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.termo__aceite input {
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.2rem;
+  accent-color: var(--verde);
+}
+
+/* Emergência */
+.lista-emergencia {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.contato-emergencia {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: 2px solid var(--borda);
+  border-radius: 14px;
+  color: var(--texto);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.contato-emergencia:hover {
+  border-color: var(--perigo);
+  background-color: var(--perigo-fundo);
+}
+
+.contato-emergencia__numero {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  min-width: 4rem;
+  height: 3.25rem;
+  padding: 0 0.5rem;
+  border-radius: 12px;
+  background-color: var(--perigo);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.contato-emergencia--caps .contato-emergencia__numero {
+  background-color: var(--verde);
+}
+
+.contato-emergencia strong {
+  display: block;
+  line-height: 1.3;
+}
+
+.contato-emergencia small {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+/* 11. AVISOS RÁPIDOS (toast) ------------------------------------------- */
+.area-avisos {
+  position: fixed;
+  top: 4.5rem;
+  right: 1rem;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(360px, 100% - 2rem);
+  pointer-events: none;
+}
+
+.aviso {
+  padding: 0.85rem 1.1rem;
+  border-radius: 12px;
+  background-color: var(--verde-escuro);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: var(--sombra-forte);
+  animation:
+    aviso-entrar 0.3s ease,
+    aviso-sair 0.3s ease 3.7s forwards;
+}
+
+.aviso--erro {
+  background-color: var(--perigo);
+}
+
+.aviso--info {
+  background-color: #3d4b59;
+}
+
+/* 12. RODAPÉ ----------------------------------------------------------- */
+.rodape {
+  padding: 2rem 0 6rem; /* espaço extra para os botões flutuantes */
+  background-color: var(--verde-escuro);
+  color: #d8ece8;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.rodape p + p {
+  margin-top: 0.3rem;
+}
+
+.rodape a {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.rodape .rodape__aviso {
+  max-width: 62ch;
+  margin: 0.9rem auto;
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+/* 13. ANIMAÇÕES -------------------------------------------------------- */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deslizar {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(var(--inclinacao));
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--inclinacao));
+  }
+}
+
+@keyframes surgir-modal {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes aviso-entrar {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes aviso-sair {
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+/* Acessibilidade: respeita quem prefere menos movimento na tela */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card {
+    --inclinacao: 0deg !important;
+  }
+}
+
+/* 14. RESPONSIVIDADE (RNF02) ------------------------------------------- */
+@media (max-width: 600px) {
+  /* Banner mais compacto: texto curto à esquerda e botão do CVV à direita */
+  .banner-aviso {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .banner-aviso__completo {
+    display: none;
+  }
+
+  .banner-aviso__curto {
+    display: inline;
+  }
+
+  .cabecalho__conteudo {
+    flex-wrap: nowrap;
+  }
+
+  /* No celular, o botão flutuante já abre o chat */
+  .menu__chat {
+    display: none;
+  }
+
+  .menu__texto {
+    display: none;
+  }
+
+  .destaque {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .destaque p {
+    font-size: 1rem;
+  }
+
+  .destaque__acoes .botao {
+    width: 100%;
+  }
+
+  .painel-formulario {
+    margin-top: -1.5rem;
+    padding: 1.25rem;
+  }
+
+  .formulario__acoes {
+    flex-direction: column-reverse;
+  }
+
+  .formulario__acoes .botao {
+    width: 100%;
+  }
+
+  /* Filtros viram uma faixa com rolagem horizontal */
+  .filtros {
+    flex-wrap: nowrap;
+    margin-inline: -1rem;
+    padding: 0 1rem 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .card {
+    --inclinacao: 0deg !important;
+  }
+
+  /* Botões flutuantes viram apenas ícones */
+  .flutuante {
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    font-size: 1.4rem;
+  }
+
+  .flutuante__texto {
+    display: none;
+  }
+
+  .modal__cabecalho,
+  .modal__corpo,
+  .modal__rodape {
+    padding-inline: 1.1rem;
+  }
+
+  .modal__rodape .botao {
+    width: 100%;
+  }
+
+  .area-avisos {
+    left: 1rem;
+    max-width: none;
+  }
+}
