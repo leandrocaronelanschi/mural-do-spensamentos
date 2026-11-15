@@ -36,6 +36,8 @@ mural-pensamentos-positivos/
 ├── css/
 │   ├── style.css       → Estilos gerais (variáveis, componentes, responsividade)
 │   └── admin.css       → Estilos exclusivos do painel
+├── img/
+│   └── fundo-destaque.svg → Ilustração de fundo da seção de destaque (jardim em SVG)
 └── js/
     ├── armazenamento.js → Camada de dados (localStorage como "banco de dados")
     ├── moderacao.js     → Filtro de palavras (RF02)

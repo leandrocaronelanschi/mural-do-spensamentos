@@ -486,41 +486,14 @@ textarea {
 }
 
 .destaque {
-  position: relative;
-  overflow: hidden;
   padding: 3.5rem 0 4rem;
-  background: linear-gradient(135deg, var(--verde-claro) 0%, var(--creme) 100%);
+  /* Duas camadas de fundo: a ilustração do jardim (img/fundo-destaque.svg) fica por
+     cima do degradê. Se a imagem não carregar, o degradê continua aparecendo.
+     O SVG se ajusta sozinho ao tamanho da seção (veja os comentários dentro dele). */
+  background:
+    url("../img/fundo-destaque.svg") center / 100% 100% no-repeat,
+    linear-gradient(135deg, var(--verde-claro) 0%, var(--creme) 100%);
   text-align: center;
-}
-
-/* Círculos decorativos no fundo */
-.destaque::before,
-.destaque::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-.destaque::before {
-  top: -120px;
-  left: -80px;
-  width: 280px;
-  height: 280px;
-  background-color: #c9ebe3;
-}
-
-.destaque::after {
-  right: -60px;
-  bottom: -110px;
-  width: 240px;
-  height: 240px;
-  background-color: var(--pessego);
-}
-
-.destaque .container {
-  position: relative;
-  z-index: 1;
 }
 
 .destaque__selo {

@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <!--
+    FUNDO DA SEÇÃO DE DESTAQUE — "Jardim do acolhimento"
+    Ilustração vetorial (SVG): fica nítida em qualquer tela e pesa poucos KB.
+    Usada em css/style.css, no seletor .destaque.
+
+    Como ela se adapta ao tamanho da seção:
+      - Este svg principal não tem viewBox, então ocupa 100% da largura e da altura da seção.
+      - Cada grupo de enfeites é um <symbol> preso a um canto pelo preserveAspectRatio
+        (xMin = esquerda, xMax = direita, YMin = topo, YMax = base) e desenhado com
+        <use width="100%" height="100%">. Em telas estreitas os enfeites diminuem sozinhos
+        e não ficam por trás do texto.
+      - As colinas usam preserveAspectRatio="none" para esticar de ponta a ponta.
+
+    Cores tiradas da paleta do projeto. A última onda usa #f5faf8 (a mesma cor de fundo da
+    página, definida no CSS), para a seção "derreter" suavemente no mural logo abaixo.
+
+    Cuidados ao editar este arquivo:
+      1. Use <symbol> em vez de colocar um svg dentro de outro. O arquivo precisa ter UMA
+         única tag de fechamento de svg (a última linha): o Live Server do VS Code injeta
+         um script antes de cada uma delas e, com mais de uma, a imagem chega cortada ao
+         navegador e não aparece.
+      2. Comentários não podem ter dois hifens seguidos, senão a imagem quebra.
+  -->
+  <style>
+    /* Em telas estreitas (tablet em pé e celular) o texto ocupa quase toda a largura.
+       Aqui o @media mede a largura da própria imagem, que é a largura da seção. */
+    @media (max-width: 900px) {
+      .so-em-tela-larga {
+        display: none;
+      }
+    }
+  </style>
+
+  <defs>
+    <!-- Brilho claro no centro: deixa o texto bem legível -->
+    <radialGradient id="brilho-centro" cx=".5" cy=".42" r=".5">
+      <stop offset="0" stop-color="#fff" stop-opacity=".7" />
+      <stop offset=".55" stop-color="#fff" stop-opacity=".35" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Luz em volta do sol e raios (4 raios; girando o grupo, viram 12) -->
+    <radialGradient id="luz-sol">
+      <stop offset="0" stop-color="#ffe49a" stop-opacity=".95" />
+      <stop offset=".45" stop-color="#ffe49a" stop-opacity=".4" />
+      <stop offset="1" stop-color="#ffe49a" stop-opacity="0" />
+    </radialGradient>
+    <path id="raios" d="M0-62V-84M0 62V84M-62 0H-84M62 0H84" />
+
+    <!-- Nuvem (a cor vem de quem usa: fill="...") -->
+    <g id="nuvem">
+      <rect y="-30" width="150" height="30" rx="15" />
+      <circle cx="42" cy="-30" r="26" />
+      <circle cx="82" cy="-42" r="34" />
+      <circle cx="118" cy="-28" r="22" />
+    </g>
+
+    <!-- Girassol, o símbolo do projeto: 12 pétalas atrás + 12 na frente + miolo -->
+    <path id="petala" d="M0-13C9-22 10-40 0-56C-10-40-9-22 0-13Z" />
+    <g id="petalas6">
+      <use href="#petala" />
+      <use href="#petala" transform="rotate(60)" />
+      <use href="#petala" transform="rotate(120)" />
+      <use href="#petala" transform="rotate(180)" />
+      <use href="#petala" transform="rotate(240)" />
+      <use href="#petala" transform="rotate(300)" />
+    </g>
+    <g id="girassol">
+      <g fill="#f2ae37">
+        <use href="#petalas6" transform="rotate(15)" />
+        <use href="#petalas6" transform="rotate(45)" />
+      </g>
+      <g fill="#ffd35f">
+        <use href="#petalas6" />
+        <use href="#petalas6" transform="rotate(30)" />
+      </g>
+      <circle r="22" fill="#7a4a1b" />
+      <!-- sementes: traços pontilhados em círculo -->
+      <g fill="none" stroke="#a8733b" stroke-width="3.2" stroke-linecap="round">
+        <circle r="16" stroke-dasharray=".1 6.6" />
+        <circle r="9" stroke-dasharray=".1 6" />
+      </g>
+    </g>
+
+    <!-- Folha com nervura (aponta para a direita) -->
+    <g id="folha">
+      <path d="M0 0C14-15 42-17 62-4C44 11 17 12 0 0Z" />
+      <path d="M6 0C22-4 40-5 55-4" fill="none" stroke="#3f8a75" stroke-width="2" stroke-linecap="round" opacity=".45" />
+    </g>
+
+    <!-- Florzinha de 5 pétalas (cor das pétalas vem de quem usa) -->
+    <g id="florzinha">
+      <circle cy="-9" r="7" />
+      <circle cx="8.6" cy="-2.8" r="7" />
+      <circle cx="5.3" cy="7.3" r="7" />
+      <circle cx="-5.3" cy="7.3" r="7" />
+      <circle cx="-8.6" cy="-2.8" r="7" />
+      <circle r="4.8" fill="#ffd35f" />
+    </g>
+
+    <!-- Coração e brilho (estrelinha de 4 pontas) -->
+    <path id="coracao" d="M0 10C-6 5-14 0-14-6C-14-11-10-14-6.5-14C-3.5-14-1-12 0-9.5C1-12 3.5-14 6.5-14C10-14 14-11 14-6C14 0 6 5 0 10Z" />
+    <path id="brilho" d="M0-11Q1.6-1.6 11 0Q1.6 1.6 0 11Q-1.6 1.6-11 0Q-1.6-1.6 0-11Z" />
+
+    <!-- Bilhete do mural, igual aos cards (fill = papel, color = tachinha e linhas) -->
+    <g id="bilhete">
+      <rect x="-31" y="-25" width="68" height="58" rx="9" fill="#1d4f46" fill-opacity=".1" />
+      <rect x="-34" y="-30" width="68" height="58" rx="9" />
+      <path d="M-20-9H20M-20 3H14M-20 15H4" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-opacity=".4" />
+      <circle cy="-30" r="7" fill="currentColor" stroke="#fff" stroke-width="3" />
+    </g>
+
+    <!-- Balão de conversa, lembrando a Sala de Bate-Papo (fill = balão, color = pontinhos) -->
+    <path id="forma-balao" d="M-28-22H28A12 12 0 0 1 40-10V10A12 12 0 0 1 28 22H-4L-20 36V22H-28A12 12 0 0 1-40 10V-10A12 12 0 0 1-28-22Z" />
+    <g id="balao">
+      <use href="#forma-balao" x="3" y="5" fill="#1d4f46" fill-opacity=".1" />
+      <use href="#forma-balao" />
+      <g fill="currentColor">
+        <circle cx="-14" r="4.5" />
+        <circle r="4.5" />
+        <circle cx="14" r="4.5" />
+      </g>
+    </g>
+  </defs>
+
+  <!-- 1. Brilho suave no centro, atrás do texto -->
+  <rect width="100%" height="100%" fill="url(#brilho-centro)" />
+
+  <!-- 2. Canto superior direito: sol e nuvem -->
+  <symbol id="canto-sup-dir" viewBox="0 0 1600 480" preserveAspectRatio="xMaxYMin meet">
+    <g transform="translate(1488 96)">
+      <circle r="160" fill="url(#luz-sol)" />
+      <g stroke="#ffd468" stroke-width="7" stroke-linecap="round">
+        <use href="#raios" />
+        <use href="#raios" transform="rotate(30)" />
+        <use href="#raios" transform="rotate(60)" />
+      </g>
+      <circle r="46" fill="#ffd96e" />
+      <circle cx="-14" cy="-14" r="16" fill="#fff" fill-opacity=".35" />
+    </g>
+    <use href="#nuvem" transform="translate(1300 168) scale(.72)" fill="#fff" opacity=".92" />
+  </symbol>
+  <use href="#canto-sup-dir" width="100%" height="100%" />
+
+  <!-- 3. Canto superior esquerdo: nuvens, bilhete e balão de conversa -->
+  <symbol id="canto-sup-esq" viewBox="0 0 1600 480" preserveAspectRatio="xMinYMin meet">
+    <use href="#nuvem" transform="translate(40 112)" fill="#fff" opacity=".92" />
+    <use href="#nuvem" transform="translate(318 64) scale(.55)" fill="#fff" opacity=".8" />
+    <g class="so-em-tela-larga">
+      <use href="#balao" transform="translate(250 150) rotate(-4)" fill="#fff" color="#5fb39b" />
+      <use href="#bilhete" transform="translate(306 236) rotate(8)" fill="#fff4d4" color="#e2a32b" />
+    </g>
+    <g fill="#ffcf55">
+      <use href="#brilho" transform="translate(222 84)" />
+      <use href="#brilho" transform="translate(132 160) scale(.6)" />
+    </g>
+  </symbol>
+  <use href="#canto-sup-esq" width="100%" height="100%" />
+
+  <!-- 4. Colinas do fundo (esticam na largura toda) -->
+  <symbol id="colinas-fundo" viewBox="0 0 1440 480" preserveAspectRatio="none">
+    <path fill="#d5efe8" d="M0 392C150 360 330 352 520 378S880 420 1080 388 1340 344 1440 362V480H0Z" />
+    <path fill="#bfe4da" d="M0 430C200 400 420 404 640 424S1010 450 1220 420 1400 404 1440 410V480H0Z" />
+  </symbol>
+  <use href="#colinas-fundo" width="100%" height="100%" />
+
+  <!-- 5. Canto inferior esquerdo: girassóis -->
+  <symbol id="canto-inf-esq" viewBox="0 0 1600 480" preserveAspectRatio="xMinYMax meet">
+    <g fill="none" stroke="#5a9e88" stroke-width="8" stroke-linecap="round">
+      <path d="M160 500C168 420 150 330 148 250" />
+      <path d="M252 500C247 440 262 380 262 330" />
+      <path d="M70 500C68 455 58 400 56 362" />
+    </g>
+    <g fill="#6cb9a2">
+      <use href="#folha" transform="translate(160 404) rotate(-28) scale(1.3)" />
+      <use href="#folha" transform="translate(153 338) scale(-1.15 1.15) rotate(-24)" />
+      <use href="#folha" transform="translate(252 440) rotate(-38) scale(1.05)" />
+      <use href="#folha" transform="translate(64 446) scale(-.95 .95) rotate(-26)" />
+    </g>
+    <use href="#girassol" transform="translate(148 240) rotate(8) scale(1.1)" />
+    <use href="#girassol" transform="translate(262 322) rotate(-14) scale(.86)" />
+    <use href="#girassol" transform="translate(56 354) rotate(22) scale(.68)" />
+  </symbol>
+  <use href="#canto-inf-esq" width="100%" height="100%" />
+
+  <!-- 6. Canto inferior direito: broto, florzinhas e corações subindo -->
+  <symbol id="canto-inf-dir" viewBox="0 0 1600 480" preserveAspectRatio="xMaxYMax meet">
+    <g fill="none" stroke="#6aab95" stroke-width="4" stroke-linecap="round">
+      <path d="M1366 500C1364 460 1358 430 1360 398" />
+      <path d="M1292 500C1292 470 1288 448 1288 422" />
+      <path d="M1550 500C1552 460 1558 420 1556 390" />
+    </g>
+    <path d="M1466 500C1462 450 1468 400 1462 356" fill="none" stroke="#5a9e88" stroke-width="9" stroke-linecap="round" />
+    <path fill="#79c4aa" d="M1462 364C1440 330 1400 316 1366 326C1384 364 1428 380 1462 364Z" />
+    <path fill="#5aae93" d="M1462 350C1478 306 1522 282 1566 290C1552 336 1506 360 1462 350Z" />
+    <use href="#florzinha" transform="translate(1360 396)" fill="#f5a8c1" />
+    <use href="#florzinha" transform="translate(1288 420) scale(.8)" fill="#9fcdf1" />
+    <use href="#florzinha" transform="translate(1556 388) scale(.9)" fill="#c4b2f6" />
+    <g class="so-em-tela-larga">
+      <use href="#coracao" transform="translate(1420 286) rotate(-8) scale(1.1)" fill="#f29bb8" />
+      <use href="#coracao" transform="translate(1368 236) rotate(10) scale(.85)" fill="#5fb39b" />
+      <use href="#coracao" transform="translate(1416 190) rotate(-12) scale(.65)" fill="#b9a5f3" />
+    </g>
+  </symbol>
+  <use href="#canto-inf-dir" width="100%" height="100%" />
+
+  <!-- 7. Colina da frente (cobre a base dos caules) e onda na cor do fundo da página -->
+  <symbol id="colinas-frente" viewBox="0 0 1440 480" preserveAspectRatio="none">
+    <path fill="#a5d5c8" d="M0 452C230 432 470 436 720 450S1190 466 1440 444V480H0Z" />
+    <path fill="#f5faf8" d="M0 470C260 458 520 460 760 468S1220 478 1440 464V480H0Z" />
+  </symbol>
+  <use href="#colinas-frente" width="100%" height="100%" />
+</svg>
