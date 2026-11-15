@@ -8,7 +8,7 @@
  *
  * ATENÇÃO: o login abaixo é apenas DEMONSTRATIVO (protótipo acadêmico).
  * Em um sistema real, a autenticação deve ser feita no servidor, com
- * senha criptografada e controle de sessão. Nunca deixe a senha no JS!
+ * senha criptografada e controle de sessão. Nunca deixe a senha no JS! - !
  * ===================================================================== */
 
 const SENHA_DEMONSTRACAO = "admin123";
@@ -35,11 +35,15 @@ const botoesAba = document.querySelectorAll(".aba");
 const secaoPensamentos = document.getElementById("secao-pensamentos");
 const campoBusca = document.getElementById("campo-busca");
 const botaoRestaurar = document.getElementById("botao-restaurar");
-const corpoTabelaPensamentos = document.getElementById("corpo-tabela-pensamentos");
+const corpoTabelaPensamentos = document.getElementById(
+  "corpo-tabela-pensamentos"
+);
 const semPensamentos = document.getElementById("sem-pensamentos");
 
 const secaoConversas = document.getElementById("secao-conversas");
-const botaoLimparEncerradas = document.getElementById("botao-limpar-encerradas");
+const botaoLimparEncerradas = document.getElementById(
+  "botao-limpar-encerradas"
+);
 const corpoTabelaConversas = document.getElementById("corpo-tabela-conversas");
 const semConversas = document.getElementById("sem-conversas");
 
@@ -67,7 +71,11 @@ function fazerLogin(evento) {
   evento.preventDefault();
 
   if (campoSenha.value !== SENHA_DEMONSTRACAO) {
-    exibirAlerta(alertaLogin, "erro", "<p>Senha incorreta. Tente novamente.</p>");
+    exibirAlerta(
+      alertaLogin,
+      "erro",
+      "<p>Senha incorreta. Tente novamente.</p>"
+    );
     campoSenha.select();
     return;
   }
@@ -145,12 +153,16 @@ function renderizarTabelaPensamentos() {
     `${pensamento.texto} ${pensamento.autor}`.toLowerCase().includes(busca)
   );
 
-  corpoTabelaPensamentos.innerHTML = pensamentos.map(criarLinhaDoPensamento).join("");
+  corpoTabelaPensamentos.innerHTML = pensamentos
+    .map(criarLinhaDoPensamento)
+    .join("");
   semPensamentos.hidden = pensamentos.length > 0;
 }
 
 function criarLinhaDoPensamento(pensamento) {
-  const chaveCategoria = CATEGORIAS[pensamento.categoria] ? pensamento.categoria : "motivacao";
+  const chaveCategoria = CATEGORIAS[pensamento.categoria]
+    ? pensamento.categoria
+    : "motivacao";
   const categoria = CATEGORIAS[chaveCategoria];
   const textoEditado = pensamento.editadoEm
     ? `<br><span class="texto-pequeno">editado em ${formatarDataHora(pensamento.editadoEm)}</span>`
@@ -180,7 +192,8 @@ function tratarAcaoNoPensamento(evento) {
   if (!botao) return;
 
   if (botao.dataset.acao === "editar") abrirEdicao(botao.dataset.id);
-  if (botao.dataset.acao === "excluir") excluirPensamentoComConfirmacao(botao.dataset.id);
+  if (botao.dataset.acao === "excluir")
+    excluirPensamentoComConfirmacao(botao.dataset.id);
 }
 
 function abrirEdicao(id) {
@@ -210,7 +223,11 @@ function salvarEdicao(evento) {
   const categoria = campoEdicaoCategoria.value;
 
   if (texto.length < 5) {
-    exibirAlerta(alertaEdicao, "erro", "<p>A mensagem precisa ter pelo menos 5 caracteres.</p>");
+    exibirAlerta(
+      alertaEdicao,
+      "erro",
+      "<p>A mensagem precisa ter pelo menos 5 caracteres.</p>"
+    );
     return;
   }
 
@@ -231,7 +248,9 @@ function excluirPensamentoComConfirmacao(id) {
   const pensamento = buscarPensamento(id);
   if (!pensamento) return;
 
-  const confirmou = confirm(`Deseja excluir este pensamento do mural?\n\n"${pensamento.texto}"`);
+  const confirmou = confirm(
+    `Deseja excluir este pensamento do mural?\n\n"${pensamento.texto}"`
+  );
   if (!confirmou) return;
 
   excluirPensamento(id);
@@ -275,7 +294,8 @@ function renderizarTabelaConversas() {
 function criarLinhaDaConversa(conversa) {
   const etiqueta = ETIQUETAS[conversa.etiqueta] || ETIQUETAS.busca;
   const estaAtiva = conversa.status === "ativa";
-  const classeDaLinha = estaAtiva && precisaDeAtencao(conversa) ? "linha--atencao" : "";
+  const classeDaLinha =
+    estaAtiva && precisaDeAtencao(conversa) ? "linha--atencao" : "";
 
   const botaoDeAcao = estaAtiva
     ? `<button type="button" class="botao botao--perigo botao--pequeno"
@@ -302,7 +322,9 @@ function criarTextoDoHorario(conversa) {
   if (!conversa.horarioSugerido) {
     return '<span class="texto-pequeno">—</span>';
   }
-  const situacao = conversa.horarioConfirmado ? "✅ confirmado" : "⏳ aguardando confirmação";
+  const situacao = conversa.horarioConfirmado
+    ? "✅ confirmado"
+    : "⏳ aguardando confirmação";
   return `${formatarHorarioAgendado(conversa.horarioSugerido)}<br><span class="texto-pequeno">${situacao}</span>`;
 }
 
@@ -310,7 +332,9 @@ function criarIndicadores(conversa) {
   const indicadores = [];
 
   if (conversa.alertaCrise) {
-    indicadores.push('<span class="indicador indicador--crise">⚠️ Termo de crise</span>');
+    indicadores.push(
+      '<span class="indicador indicador--crise">⚠️ Termo de crise</span>'
+    );
   }
   if (conversa.bloqueiosOfensivos > 0) {
     indicadores.push(
@@ -318,14 +342,19 @@ function criarIndicadores(conversa) {
     );
   }
 
-  return indicadores.length > 0 ? indicadores.join(" ") : '<span class="texto-pequeno">Nenhum</span>';
+  return indicadores.length > 0
+    ? indicadores.join(" ")
+    : '<span class="texto-pequeno">Nenhum</span>';
 }
 
 function criarTextoDaSituacao(conversa) {
   if (conversa.status === "ativa") {
     return '<span class="situacao situacao--ativa">● Ativa</span>';
   }
-  const quemEncerrou = conversa.encerradaPor === "moderacao" ? "pela moderação" : "pelo participante";
+  const quemEncerrou =
+    conversa.encerradaPor === "moderacao"
+      ? "pela moderação"
+      : "pelo participante";
   return `<span class="situacao situacao--encerrada">Encerrada ${quemEncerrou}</span>`;
 }
 
@@ -333,8 +362,10 @@ function tratarAcaoNaConversa(evento) {
   const botao = evento.target.closest("button[data-acao]");
   if (!botao) return;
 
-  if (botao.dataset.acao === "encerrar") encerrarConversaComConfirmacao(botao.dataset.id);
-  if (botao.dataset.acao === "remover") removerRegistroDeConversa(botao.dataset.id);
+  if (botao.dataset.acao === "encerrar")
+    encerrarConversaComConfirmacao(botao.dataset.id);
+  if (botao.dataset.acao === "remover")
+    removerRegistroDeConversa(botao.dataset.id);
 }
 
 /**
